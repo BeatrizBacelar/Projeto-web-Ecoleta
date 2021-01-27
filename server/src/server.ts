@@ -1,13 +1,19 @@
 import express from 'express';
+import routes from './routes';
 
-const app = express()
+
+const app = express();
+
+app.use(express.json());
+
+app.use(routes);
 
 // Rota: Endereço completo da requisição
 // Recurso: Qual entidade estamos acessando do sistema 
 
 // GET :  buscar uma ou mais informações do backend
 // POST : criar uma nova informação no backend
-// PUT : atualizar uma informação existente
+// PUT : atualizar uma informação existente no backend
 // DELETE: remover uma informação do backend
 
 // POST https://localhost:3333/users = Criar um usuário
@@ -18,12 +24,20 @@ const app = express()
 // Query Params : são parâmetros que vem na própria rota geralmente opcionais para filtos, paginação
 // Request body : Parâmetros para criação/atualização de informações
 
-const users = [
-    'Diego',
-    'Robson',
-    'Carlos',
-    'Daniel'
-        ];
+// SELECT * FROM users WHERE name = 'Diego'
+// knex('users').where('name', 'Diego').select('*')
+
+/* app.post('/users', (request,response) => {
+    const data = request.body;
+    console.log(data);
+    
+    
+    const user = {
+        name: data.name,
+        email: data.email,
+    };
+  return response.json(user);
+});
 
 app.get('/users', (request, response) => {
     
@@ -43,12 +57,16 @@ app.get('/users/:id', (request, response) => {
 });
 
 
-app.post('/users', (resquest,response) => {
-    const user = {
-        name: 'Diego',
-        email: 'diego@rocketseat.com.br'
-    };
-  return response.json(user);
-});
+*/
+
+const users = [
+    'Diego',
+    'Robson',
+    'Carlos',
+    'Daniel'
+        ];
+
+     
+
 
 app.listen(3333);
