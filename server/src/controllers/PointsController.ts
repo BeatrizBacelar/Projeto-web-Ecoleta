@@ -2,6 +2,33 @@ import {Request, Response} from 'express';
 import knex from '../database/connection';
 
 class PointsController{
+async index (request: Request, response:Response){
+    // cidade, uf, items 
+    // Request.params - algo na rota obrigatório
+    // Resquest.body - criação ou edição de algo
+    //(Query params) - filto, paginação... 
+    const {city, uf,items } = request.query;
+    const parsedItems = String(items)
+    .split(',')
+    .map(item => Number(item.trim()));
+
+    const points = await knex('points')
+    .join('point_items', 'points.id', '=', 'point_items.point_id')
+    .whereIn('point_items.item_id', parsedItems)
+    .where('city', String(city))
+    .where('uf', String(uf))
+    .distinct()
+    .select('points.*');
+
+    console.log(city, uf, items);
+
+    return response.json(points);
+}
+
+
+
+
+
 async show (request: Request, response: Response){
     const { id } = request.params;
    
@@ -62,7 +89,8 @@ async show (request: Request, response: Response){
     
     await trx('point_items').insert(pointItems);
     
-    
+    // para fazer de fato os inserts na base da dados
+    await trx.commit();
     return response.json({ 
         id: point_id,
         ...point,  
