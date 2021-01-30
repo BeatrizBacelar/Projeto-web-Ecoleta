@@ -1,16 +1,12 @@
 import React from 'react';
 import './App.css';
-import Header from './Header';
+
 // JSX : Sintaxe de XML dentro do JavaScript
 
 function App() {
-  return (
-    <div>
-      <Header />
-
-      <h1>Conteúdo da aplicação</h1>
-    </div>
-  );
+ return (
+    <h1>Hello World</h1>
+);
 }
 
 export default App;
